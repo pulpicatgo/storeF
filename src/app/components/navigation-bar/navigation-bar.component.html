@@ -1,0 +1,102 @@
+<mat-toolbar color="primary">
+
+    <button mat-icon-button class="example-icon" *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+        <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+        <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+    </button>
+    <span><img src="assets/img/Hex-Shop.png" alt=""></span>
+
+    <span class="example-spacer"></span>
+    <form class="example-form-width">
+        <mat-form-field class="example-full-width" floatLabel="never">
+            <mat-icon  class="icon-form" matSuffix>search</mat-icon>
+            <mat-label>Buscar producto</mat-label>
+            <input matInput type="search" autocomplete="off">
+        </mat-form-field>
+    </form>
+    <span class="example-spacer"></span>
+    <ng-container *ngIf="false; else loginButton">
+        <button mat-icon-button class="example-icon favorite-icon">
+            <mat-icon>shopping_cart</mat-icon>
+        </button>
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>manage_accounts</mat-icon>
+                <span>Perfil</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>logout</mat-icon>
+                <span>Cerrar Sesion</span>
+            </button>
+        </mat-menu>
+    </ng-container>
+    <ng-template #loginButton>
+        <button mat-button aria-label="Example icon-button with a menu"  routerLink="/login">
+            <mat-icon>login</mat-icon>
+        </button>
+        <button mat-button aria-label="Example icon-button with a menu"  routerLink="/signup">
+            <mat-icon>person_add</mat-icon>
+        </button>
+    </ng-template>
+
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav"  class="mat-elevation-z8">
+
+        <ng-container *ngIf="isAuthenticated() === false; else showInicio">
+        <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
+
+        <h4 class="name">John Smith</h4>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" routerLink="/home">
+            <mat-icon>home</mat-icon>
+            <span>Inicio</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/profile">
+            <mat-icon>person</mat-icon>
+            <span>Perfil</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/cart">
+            <mat-icon>shopping_cart</mat-icon>
+            <span>carrito</span>
+        </button>
+        
+        <button mat-button class="menu-button">
+            <mat-icon>logout</mat-icon>
+            <span>cerrar sesión</span>
+        </button>
+        <mat-divider></mat-divider>
+    </ng-container>
+    <ng-template #showInicio>
+        
+        <button mat-button class="menu-button" routerLink="/home">
+            <mat-icon>home</mat-icon>
+            <span>Inicio</span>
+        </button>
+    </ng-template>
+        <button mat-button class="menu-button" routerLink="/about">
+            <mat-icon>info</mat-icon>
+            <span>Acerca de</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/contact">
+            <mat-icon>call</mat-icon>
+            <span>Contacto</span>
+        </button>
+
+        <button mat-button class="menu-button" routerLink="/help">
+            <mat-icon>help</mat-icon>
+            <span>Ayuda</span>
+        </button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="content mat-elevation-z4">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
