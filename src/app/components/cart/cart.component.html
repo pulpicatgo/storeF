@@ -1,1 +1,74 @@
-<p>cart works!</p>
+<ng-container *ngIf="cart$ | async as cart; else onLoading">
+    <div class="example-container mat-elevation-z8" *ngIf="cart$ | async as cart; else onLoading">
+        <div class="example-table-container">
+            <table mat-table [dataSource]="cart[0].productos!" matSort>
+
+                <!-- imageUrl Column -->
+                <ng-container matColumnDef="imageUrl">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Imagen</th>
+                    <td mat-cell *matCellDef="let element" class='m-card-title' test data-label='imageUrl'> <a>
+                            <div class="profile-image">
+                                <img width="120" height="120" class="margin-top mat-elevation-z1"
+                                    [src]="element.imageUrl ?? '/assets/img/placeholder-image.jpg'" />
+                            </div>
+                        </a></td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="nombreProd">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                    <td mat-cell *matCellDef="let element" class='m-card-sub-title' data-label='Form type'>
+                        {{element.nombreProd}} </td>
+                </ng-container>
+
+                <!-- marca Column -->
+                <ng-container matColumnDef="marca">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+                    <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Marca:'>
+                        {{element.marca}} </td>
+                </ng-container>
+
+                <!-- precio Column -->
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+                    <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Precio:'>
+                        {{element.precio| currency}} </td>
+                </ng-container>
+
+                <!-- cantidadCompra Column -->
+                <ng-container matColumnDef="cantidadCompra">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+                    <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Cantidad: '>
+                        {{element.cantidadCompra}} </td>
+                </ng-container>
+
+                <!-- precio Column -->
+                <ng-container matColumnDef="total">
+                    <th mat-header-cell *matHeaderCellDef>Total </th>
+                    <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Total a pagar: '>
+                        <b>{{calculateTotal(element) | currency}}</b>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+    </div>
+    <br>
+    <mat-card class=" mat-elevation-z8 " style="text-align: rigth;" *ngIf="cart[0].totalProductos">
+        <mat-card-content>Cantidad de productos: {{cart[0].totalProductos}}<br><br><b>Total a
+                pagar: {{calculateTotalTotal(cart[0]) |currency }}</b></mat-card-content>
+        <mat-card-actions>
+            <button color="primary" mat-flat-button style="width: 100%;" (click)="comprar(cart[0])">Comprar</button>
+        </mat-card-actions>
+    </mat-card>
+
+
+</ng-container>
+<ng-template #onLoading>
+    <div class="center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

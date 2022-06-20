@@ -1,0 +1,50 @@
+.contenedor {
+    padding: 16px;
+}
+
+.contenedor>mat-card {
+    width: 400px;
+
+}
+.mar-card>img{
+    width: 100%;
+    align-self: center;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+mat-card-title {
+    font-size: 16px;
+    font-family: sans-serif
+}
+
+.mat-success {
+    background-color: green;
+    color: #fff;
+}
+
+.mat-card {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.mat-card-header {
+    flex-shrink: 0;
+}
+
+.mat-card-content {
+    flex-grow: 1;
+    overflow: hidden;
+}
+.mat-card-actions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.mat-card-actions > button{
+    height: 75%;
+}

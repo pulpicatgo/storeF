@@ -1,1 +1,54 @@
-<p>contact works!</p>
+<div class="container">
+    <div class="content">
+        <div class="left-side">
+            <div class="address details">
+                <fa-icon [icon]="faMapMarkedAlt"></fa-icon>
+                <div class="topic">Direccion</div>
+                <div class="text-one">Universidad Autonoma de Aguascalientes</div>
+                <div class="text-two">Casa de Jacob</div>
+            </div>
+            <div class="phone details">
+                <fa-icon [icon]="faPhoneAlt"></fa-icon>
+                <div class="topic">Phone</div>
+                <div class="text-one">+524493463325</div>
+                <div class="text-two">+524492796244</div>
+            </div>
+            <div class="email details">
+                <fa-icon [icon]="faEnvelope"></fa-icon>
+                <div class="topic">Email</div>
+                <div class="text-one">intjairolopez@gmail.com</div>
+                <div class="text-two">xjlopz10@gmail.com</div>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="topic-text">Contactanos</div>
+            <p>Puedes ponerte en contacto con nosotros llenando este formulario.</p>
+            <form action="#">
+                <div class="input-box">
+                    <input type="text" name="name" id="name" placeholder="Enter your name" [ngModel]="name">
+                </div>
+                <div class="input-box">
+                    <input type="text" name="email" id="email" placeholder="Enter your email" [ngModel]="email">
+                </div>
+                <div class="input-box message-box">
+                    <textarea placeholder="Enter your message" name="mensaje" id="mensaje" cols="30" rows="10"
+                        [ngModel]="mensaje"></textarea>
+                </div>
+                <div class="button">
+                    <input type="button" (click)="enviarDatos()" value="Send Now">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<br><br>
+<div class="container">
+    <div class="card mt-5 text-center">
+      <div class="card-body">
+        <h3>Escanea el codigo QR y ponte en contacto directo con uno de nuestros asesores</h3>
+        <qrcode [qrdata]="myAngularxQrCode" [width]="230" [errorCorrectionLevel]="'M'"></qrcode>
+        <button type="button" class="btn btn-primary" (click)="refresh()">Quiero un nuevo asesor!</button>
+      </div>
+    </div>
+  </div>

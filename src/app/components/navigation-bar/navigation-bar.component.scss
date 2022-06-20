@@ -1,7 +1,15 @@
 .example-spacer {
   flex: 1 1 auto;
 }
-
+.mat-icon {
+  vertical-align: middle;
+}
+.mat-toolbar{
+  background-color: rgb(33, 44, 37);
+}
+h4{
+  color: wheat;
+}
 .mat-sidenav {
   margin: 16px;
   width: 200px;
@@ -10,7 +18,7 @@
   border-radius: 10px;
   padding: 16px;
   text-align: center;
-  background-color:rgb(190, 75, 22);
+  background-color:rgb(53, 26, 60);
 }
 .mat-form-field {
   font-size: 14px;
@@ -21,7 +29,9 @@
   margin-left: 32px;
   border-radius: 10px ;
 
-  overflow: auto;
+  overflow-y: auto;
+  padding: 32px;
+  box-sizing: border-box;
 }
 
 .mat-sidenav-container {
@@ -69,4 +79,8 @@ img{
 }
 @media (max-width: 800px) {
   .content { margin-left: 16px; }
+}
+
+.active {
+  background-color:rgb(97, 53, 108);
 }

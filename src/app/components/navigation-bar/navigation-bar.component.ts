@@ -7,6 +7,11 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import Swal from 'sweetalert2';
+import { UsersService } from 'src/app/services/users.service';
+import { CartService } from 'src/app/services/cart.service';
+
+@UntilDestroy()
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
@@ -16,7 +21,10 @@ export class NavigationBarComponent implements OnInit {
 
   @ViewChild(MatSidenav) sidenav!: MatSidenav
 
-  constructor(private domSanitizer: DomSanitizer, private authService: AuthService, private breakObserver: BreakpointObserver, private router: Router) {
+
+  user$ = this.usersService.currentUserProfile$;
+  cart$ = this.cartService.getcurrentUserCart$()
+  constructor(private cartService: CartService, private authService: AuthService, private usersService: UsersService, private breakObserver: BreakpointObserver, private router: Router) {
 
   }
 
@@ -31,38 +39,61 @@ export class NavigationBarComponent implements OnInit {
       }
     })
 
-    this.router.events
-    .pipe(
-      untilDestroyed(this),
-      filter((e) => e instanceof NavigationEnd)
-    )
-    .subscribe(() => {
+    this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd), untilDestroyed(this)
+    ).subscribe(() => {
       if (this.sidenav.mode === 'over') {
         this.sidenav.close();
       }
     });
+
   }
   ngOnInit(): void {
 
   }
 
-  public isAuthenticated(): boolean {
-    return false;
+  public showLoginDialog() {
+    Swal.fire({
+      title: '<strong>Inicio de sesión</strong>',
+      icon: 'question',
+      html:
+        '¿Cómo quieres iniciar sesión?',
+      showCloseButton: true,
+      showDenyButton: true,
+      confirmButtonText: 'Celular',
+      denyButtonText: 'Correo',
+      denyButtonColor: '#be4b16'
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.router.navigate(['/login-otp']);
+      } else if (result.isDenied) {
+        this.router.navigate(['/login']);
+      }
+    })
   }
 
-  public login() {
-
+  logout() {
+    Swal.fire({
+      title: '¿Estás seguro de que quiere cerrar sesión?',
+      text: "Seleccione una opción para continuar",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Cerrar Sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authService.logout().subscribe(() =>
+          this.router.navigate(['/home'])
+        );
+      }
+    })
   }
 
-  public logout() {
-  }
-
-  public help() {
-
-  }
-
-  public settings() {
-
+  redirectHome(query: string) {
+    this.router.navigate(['/products/' + query])
   }
 
 }

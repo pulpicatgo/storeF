@@ -19,6 +19,24 @@ import { ProductComponent } from './components/product/product.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminProductsComponent } from './components/admin-products/admin-products.component';
+import { HotToastModule } from '@ngneat/hot-toast';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideStorage,getStorage } from '@angular/fire/storage';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { JoinPipe } from './pipes/joinPipe';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { NgxChartsModule }from '@swimlane/ngx-charts';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HttpClientModule } from '@angular/common/http';
+import { QRCodeModule } from 'angularx-qrcode';
+import { CargarScriptsService } from './cargar-scripts.service';
 
 @NgModule({
   declarations: [
@@ -36,15 +54,34 @@ import { AdminProductsComponent } from './components/admin-products/admin-produc
     ProductComponent,
     NotFoundComponent,
     AdminUsersComponent,
-    AdminProductsComponent
+    AdminProductsComponent,
+    EditProductComponent,
+    JoinPipe,
+    AnalyticsComponent
   ],
   imports: [
+    FormsModule,
+    HttpClientModule,
+    NgxIntlTelInputModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
     BrowserModule,
     AppRoutingModule,
     AngularMaterialModule,
     BrowserAnimationsModule,
+    HotToastModule.forRoot(),
+    FlexLayoutModule,
+    NgOtpInputModule,
+    QRCodeModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    NgxChartsModule,
+    FontAwesomeModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [CargarScriptsService],
+  bootstrap: [AppComponent],
+  entryComponents: [EditProductComponent]
 })
 export class AppModule { }

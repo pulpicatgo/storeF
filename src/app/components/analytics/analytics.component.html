@@ -1,0 +1,23 @@
+
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Unidades de cada producto</span>
+    </mat-toolbar-row>
+    </mat-toolbar>
+    
+<ngx-charts-advanced-pie-chart *ngIf="dataStructure.length>0; else noProducts"
+  [view]="view"
+  scheme="cool"
+  [results]="single"
+  [gradient]="gradient"
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)"
+  >
+</ngx-charts-advanced-pie-chart>
+
+<ng-template #noProducts>
+    <div class="center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

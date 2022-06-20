@@ -1,1 +1,46 @@
-<p>login-otp works!</p>
+<div class="form-container mat-elevation-z5">
+    <ng-container *ngIf="!otpSent; else enterOtp">
+        <h1 class="text-center">Login con telefono</h1>
+        <form #f="ngForm" [formGroup]="phoneForm">
+            <div class="wrapper">
+                <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+                    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                    [searchCountryField]="[
+                  SearchCountryField.Iso2,
+                  SearchCountryField.Name
+                ]" [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Mexico" [maxLength]="15"
+                    [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                    [numberFormat]="PhoneNumberFormat.National" name="phone" formControlName="phone">
+                </ngx-intl-tel-input>
+            </div>
+            <div class="center margin-top">
+                <button type="submit" mat-raised-button color="primary" [disabled]="phoneForm.invalid" (click)="requestOtp()">
+                    <span>Enviar código</span>
+                    &nbsp;
+                    <mat-icon>outgoing_mail</mat-icon>
+                    
+                </button>
+            </div>
+            <hr>
+            <button type="submit" mat-raised-button color="accent" routerLink="/login">
+                <span>Iniciar sesión con correo</span>&nbsp;
+                <mat-icon>mail</mat-icon>
+            </button>
+
+            <p class="center margin-top"> No tienes cuenta?&nbsp; <a [routerLink]="['/signup']">Registrar ahora</a></p>
+        </form>
+    </ng-container>
+    <ng-template #enterOtp>
+        <h1 class="text-center">Ingresa el código enviado</h1>
+        <div class="otp text-center">
+            <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" [config]="config"></ng-otp-input>
+            <button type="submit" mat-raised-button color="primary" (click)="handleClick()">
+                <span>Validar e iniciar sesión</span>&nbsp;
+                <mat-icon>start</mat-icon>
+            </button>
+            <br><br>
+
+          </div>
+    </ng-template>
+    <div id="sign-in-button"></div>
+</div>
