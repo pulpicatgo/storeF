@@ -1,0 +1,65 @@
+<div class="contenedor" *ngIf="products$ | async as products; else loading">
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let product of products"
+            fxLayoutAlign="center">
+            <mat-card class="mat-elevation-z4">
+                <img mat-card-image [src]="product.imageUrl ??'/assets/img/placeholder-image.jpg'">
+                <mat-card-content>
+                    <mat-card-title>{{product.nombreProd}}</mat-card-title>
+                    <small>Marca: <b>{{product.marca}}</b></small>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio mollitia, expedita maiores,
+                        animi dolor dolorum officiis voluptatum veniam sunt itaque hic unde eum, delectus suscipit? Quis
+                        ex quae atque maxime!</p>
+                    <mat-divider></mat-divider>
+                    <br>
+                    <p>Categorias</p>
+                    <mat-chip-list aria-label="Fish selection">
+                        <mat-chip *ngFor="let category of product.categorias|slice:0:2" color="primary" selected>
+                            {{category}}</mat-chip>
+                    </mat-chip-list>
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <p><b>{{product.precio | currency}}</b></p>
+                    <div>
+                        <ng-container *ngIf="  cart$| async as cart; else loginToBuy">
+                            <ng-container *ngIf="verifyIfProductAlreadyInCart(cart[0], product)!=-1; else showAdd">
+                                <p><button mat-button color="warn" (click)="removeFromCard(cart[0], product)">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                                {{getCantidadEnCarro(cart[0], product)}}
+                                <button mat-button color="primary" (click)="addToCard(cart[0], product)">
+                                    <mat-icon>add</mat-icon>
+                                </button></p>
+                            </ng-container>
+                            <ng-template #showAdd>
+                                <button mat-button color="success" (click)="addToCard(cart[0], product)"
+                                    *ngIf="product.cantidad>0; else noDisponible">
+                                    <mat-icon>add_shopping_cart</mat-icon>
+                                </button>
+                            </ng-template>
+                            <ng-template #noDisponible>
+                                <mat-chip color="warn" selected>Producto Agotado
+                                </mat-chip>
+
+                            </ng-template>
+                        </ng-container>
+                    </div>
+                    <ng-template #loginToBuy>
+                        <button mat-button color="success" routerLink="/login">
+                            <span>Ingresa para comprar</span>
+                            <mat-icon>login</mat-icon>
+                        </button>
+                    </ng-template>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+<ng-template #loading>
+    <div class="center">
+        <mat-spinner>
+        </mat-spinner>
+    </div>
+</ng-template>

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tienda-proyecto-final": {
+      "hosting": {
+        "storeF": [
+          "tienda-proyecto-final"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tienda-proyecto-final"
+  }
+}

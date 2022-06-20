@@ -1,0 +1,37 @@
+<div class="form-container mat-elevation-z5" >
+    <h1 class="text-center">Login</h1>
+    <form [formGroup]="loginForm">
+        <mat-form-field>
+            <input matInput placeholder="Email address" formControlName="email" />
+            <mat-error *ngIf="email?.errors?.['required']">
+                Email requerido
+            </mat-error>
+            <mat-error *ngIf="email?.errors?.['email']">
+                Introduce un email valido
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" placeholder="Password" formControlName="password" />
+            <mat-error *ngIf="password?.errors?.['required']">
+                Contraseña requerida
+            </mat-error>
+            <mat-error *ngIf="password?.errors?.['minlength']">
+                Contraseña demasiado corta
+            </mat-error>
+        </mat-form-field>
+        <div class="center margin-top">
+            <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="login()">
+                <span>Login</span>
+                &nbsp;
+                <mat-icon>start</mat-icon>
+            </button>
+        </div>
+        <hr>
+        <button type="submit" mat-raised-button color="accent" routerLink="/login-otp">
+            <span>Iniciar sesión con celular</span>&nbsp;
+            <mat-icon>phone_iphone</mat-icon>
+        </button>
+
+        <p class="center margin-top"> No tienes cuenta?&nbsp; <a [routerLink]="['/signup']">Registrar ahora</a></p>
+    </form>
+</div>

@@ -1,0 +1,18 @@
+{
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon ./index.js localhost 3080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "googleapis": "^103.0.0",
+    "nodemailer": "^6.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

@@ -1,0 +1,100 @@
+<div class="search-div">
+    <mat-form-field appearance="standard" class="search-form-field">
+        <mat-label>Filtrar usuarios</mat-label>
+        <input matInput type="text" placeholder="Buscar" (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+</div>
+<br><br>
+<div class="mat-elevation-z8 table-view" *ngIf="usersList$ | async as users; else onLoading">
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="userId">
+            <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.uid}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>email</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.email}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="names">
+            <mat-header-cell *matHeaderCellDef>nombre</mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row">{{row.firstName + " " + row.lastName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="displayName">
+            <mat-header-cell *matHeaderCellDef>display name</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.displayName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="phone">
+            <mat-header-cell *matHeaderCellDef>celular</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.phone}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="address">
+            <mat-header-cell *matHeaderCellDef>dirección</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.address}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="photoURL">
+            <mat-header-cell *matHeaderCellDef>foto perfil</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <div class="profile-image">
+                    <img width="80" height="80" class="margin-top mat-elevation-z1"
+                        [src]="row.photoURL ?? '/assets/img/profile.png'" />
+                    <button mat-mini-fab (click)="inputField.click()">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
+                <input #inputField hidden type="file" (change)="editPicture($event, row)"
+                    accept="image/png, image/gif, image/jpeg" />
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="isAdmin">
+            <mat-header-cell *matHeaderCellDef>administrador</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Administrador</mat-label>
+                    <mat-select name="isAdmid" [value]="row.isAdmin" #input
+                        (valueChange)="editRole($event, input.value, row)">
+                        <mat-option [value]="true">si</mat-option>
+                        <mat-option [value]="false">no</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="cantidad">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>disponibles</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.cantidad}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-button color="primary" (click)="resetPassword(row)">
+                    <mat-icon>key</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="4">
+                Loading data...
+            </mat-footer-cell>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="4">
+                No data.
+            </mat-footer-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColum"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColum;"></mat-row>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']"
+            [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+<ng-template #onLoading>
+    <div class="center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

@@ -1,0 +1,10 @@
+{
+    "service": "gmail",
+    "auth":{
+        "type": "OAuth2",
+        "user": "intjairolopez@gmail.com",
+        "clientId":"811269512428-7g1il5aiupqci9b02p4i9h8pqedaibke.apps.googleusercontent.com",
+        "clientSecret":"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",
+        "refreshToken":"1//04ly-nZoVhYgkCgYIARAAGAQSNwF-L9IrSiXNHovMoU1kuUnJjYP9vBctsIiGmvC6Ov9emL6rayX77mh9-LzgUT3GocCwcGYYJgU"
+    }
+}

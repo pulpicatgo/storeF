@@ -1,0 +1,52 @@
+<div class="form-container mat-elevation-z5">
+    <h2 class="text-center">SignUp</h2>
+    <form [formGroup]="signUpForm">
+        <mat-form-field>
+            <input matInput placeholder="Nombre" formControlName="name" />
+            <mat-error *ngIf="name?.errors?.['required']">
+               Nombre requerido
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Email address" formControlName="email" />
+            <mat-error *ngIf="email?.errors?.['required']">
+                Email requerido
+            </mat-error>
+            <mat-error *ngIf="email?.errors?.['email']">
+                Introduce un email valido
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" placeholder="Password" formControlName="password" />
+            <mat-error *ngIf="password?.errors?.['required']">
+                Contraseña requerida
+            </mat-error>
+            <mat-error *ngIf="password?.errors?.['minlength']">
+                Contraseña demasiado corta
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" placeholder="Password" formControlName="confirmPassword" />
+            <mat-error *ngIf="confirmPassword?.errors?.['required']">
+                Confirmación de contraseña requerida
+            </mat-error>
+        </mat-form-field>
+        <mat-error *ngIf="signUpForm?.errors?.['passwordsDontMatch']">
+            <small> contraseñas no coinciden</small>
+        </mat-error>
+        <div class="center margin-top">
+            <button type="submit" mat-raised-button color="primary" [disabled]="signUpForm.invalid" (click)="signUp()">
+                <span>Registrarme</span>
+                &nbsp;
+                <mat-icon>how_to_reg</mat-icon>
+            </button>
+        </div>
+        <hr>
+        <button type="submit" mat-raised-button color="accent" routerLink="/login-otp">
+            <span>Iniciar sesión con celular</span>&nbsp;
+            <mat-icon>phone_iphone</mat-icon>
+        </button>
+
+        <p class="center margin-top"> Ya tienes cuenta?&nbsp; <a [routerLink]="['/login']">Iniciar sesión</a></p>
+    </form>
+</div>

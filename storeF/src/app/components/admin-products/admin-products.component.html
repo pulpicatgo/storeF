@@ -1,0 +1,96 @@
+<div class="search-div">
+    <button mat-raised-button (click)="addProduct()">
+        <mat-icon>add</mat-icon>Create
+    </button>
+    <mat-form-field appearance="standard" class="search-form-field">
+        <mat-label>Filtrar Productos</mat-label>
+        <input matInput type="text" placeholder="Buscar" (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+</div>
+<br><br>
+<div>
+<div class="mat-elevation-z8 table-view" *ngIf="productsList$ | async as products; else onLoading">
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="productId">
+            <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.productId}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nombreProd">
+            <mat-header-cell *matHeaderCellDef>nombre</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.nombreProd}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="marca">
+            <mat-header-cell *matHeaderCellDef>marca</mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row">{{row.marca}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="precio">
+            <mat-header-cell *matHeaderCellDef>precio</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.precio|currency}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="categoria">
+            <mat-header-cell *matHeaderCellDef>categoria</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.categorias|join:', '}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="imageUrl">
+            <mat-header-cell *matHeaderCellDef>imagen</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+
+                <div class="profile-image">
+                    <img
+                      width="120"
+                      height="120"
+                      class="margin-top mat-elevation-z1"
+                      [src]="row.imageUrl ?? '/assets/img/placeholder-image.jpg'"
+                    />
+                    <button mat-mini-fab (click)="inputField.click()">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                  <input #inputField hidden type="file" (change)="editPicture($event, row)"  accept="image/png, image/gif, image/jpeg"/>
+                
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="cantidad">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>disponibles</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.cantidad}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-icon-button color="primary" (click)="editProduct(row)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteProduct(row)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="4">
+                Loading data...
+            </mat-footer-cell>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="4">
+                No data.
+            </mat-footer-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColum"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColum;"></mat-row>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']"
+            [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+</div>
+<ng-template #onLoading>
+    <div class="center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
